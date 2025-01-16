@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(kw_only=True)
 class AppError(ABC, Exception):
     message: str
 
