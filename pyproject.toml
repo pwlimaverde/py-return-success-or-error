@@ -1,6 +1,6 @@
 [project]
 name = "py-return-success-or-error"
-version = "0.2.0"
+version = "0.3.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
@@ -35,7 +35,7 @@ max-line-length = 79
 
 [tool.isort]
 profile = "black"
-multi_line_output = 0
+multi_line_output = 3
 trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
