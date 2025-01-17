@@ -6,6 +6,7 @@ from py_return_success_or_error import (
     ErrorReturn,
     ParametersReturnResult,
     SuccessReturn,
+    UsecaseBase,
     UsecaseBaseCallData,
 )
 from py_return_success_or_error.core.return_success_or_error import ReturnSuccessOrError
@@ -68,5 +69,15 @@ class UsecaseBaseCallDataTest(
             parameters=parameters, datasource=self._datasource)
         if isinstance(data, SuccessReturn):
             return SuccessReturn(success='Maior de idade')
+        else:
+            return ErrorReturn(error=parameters.error)
+
+
+class UsecaseBaseTest(
+        UsecaseBase[bool, InfoParametros]):
+    def __call__(
+            self, parameters: InfoParametros) -> ReturnSuccessOrError[bool]:
+        if parameters.informacoes['teste'] == 'teste usecase':
+            return SuccessReturn(success=True)
         else:
             return ErrorReturn(error=parameters.error)

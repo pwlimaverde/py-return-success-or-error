@@ -1,4 +1,7 @@
-from py_return_success_or_error.bases.usecase_base import UsecaseBaseCallData
+from py_return_success_or_error.bases.usecase_base import (
+    UsecaseBase,
+    UsecaseBaseCallData,
+)
 from py_return_success_or_error.core.empty import EMPTY, Empty
 from py_return_success_or_error.core.return_success_or_error import (
     ErrorReturn,

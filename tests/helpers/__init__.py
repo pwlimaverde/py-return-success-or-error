@@ -5,4 +5,5 @@ from tests.helpers.auxiliares_mock import (
     InfoParametros,
     PessoaParametros,
     UsecaseBaseCallDataTest,
+    UsecaseBaseTest,
 )
