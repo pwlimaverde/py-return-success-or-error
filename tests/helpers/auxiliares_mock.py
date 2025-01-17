@@ -1,6 +1,14 @@
 from dataclasses import dataclass, field
 
-from py_return_success_or_error import AppError, Datasource, ParametersReturnResult
+from py_return_success_or_error import (
+    AppError,
+    Datasource,
+    ErrorReturn,
+    ParametersReturnResult,
+    SuccessReturn,
+    UsecaseBaseCallData,
+)
+from py_return_success_or_error.core.return_success_or_error import ReturnSuccessOrError
 
 
 @dataclass(kw_only=True)
@@ -47,4 +55,17 @@ class DataSourceTest(Datasource[bool, PessoaParametros]):
         self.__external_mock = external_mock
 
     def __call__(self, parameters: PessoaParametros) -> bool:
-        return self.__external_mock.getData(parameters.idade > 18)
+        return self.__external_mock.getData(parameters.idade >= 18)
+
+
+class UsecaseBaseCallDataTest(UsecaseBaseCallData[str, bool, PessoaParametros]):
+    def __call__(self, parameters: PessoaParametros) -> ReturnSuccessOrError[str]:
+        data = self.resultDatasource(
+            parameters=parameters, datasource=self._datasource)
+        print('////////////////************')
+        print('data', data)
+        print('////////////////************')
+        if isinstance(data, SuccessReturn):
+            return SuccessReturn(success='Maior de idade')
+        else:
+            return ErrorReturn(error=parameters.error)

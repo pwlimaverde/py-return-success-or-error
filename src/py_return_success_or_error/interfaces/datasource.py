@@ -5,12 +5,12 @@ from py_return_success_or_error.interfaces.parameters_return_result import (
     ParametersReturnResult,
 )
 
-R = TypeVar('R')
-P = TypeVar('P', bound=ParametersReturnResult)
+TypeDatasource = TypeVar('TypeDatasource')
+TypeParameters = TypeVar('TypeParameters', bound=ParametersReturnResult)
 
 
-class Datasource(ABC, Generic[R, P]):
+class Datasource(ABC, Generic[TypeDatasource, TypeParameters]):
 
     @abstractmethod
-    def __call__(self, parameters: P) -> R:
+    def __call__(self, parameters: TypeParameters) -> TypeDatasource:
         pass  # pragma: no cover
