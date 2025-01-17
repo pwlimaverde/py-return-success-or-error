@@ -30,7 +30,8 @@ class PessoaParametros(ParametersReturnResult):
         super().__init__(error=self.error)
 
     def __str__(self) -> str:
-        return f'TestesParametros(nome={self.nome}, idade={self.idade}, error={self.error})'
+        return f'TestesParametros(nome={self.nome}, idade={
+            self.idade}, error={self.error})'
 
 
 @dataclass(kw_only=True)
@@ -38,7 +39,8 @@ class InfoParametros(ParametersReturnResult):
     informacoes: dict
 
     def __str__(self) -> str:
-        return f'TestesParametrosGerais(informaçõess={self.informacoes}, error={self.error})'
+        return f'TestesParametrosGerais(informaçõess={
+            self.informacoes}, error={self.error})'
 
 
 class ExternalMock():
@@ -58,13 +60,12 @@ class DataSourceTest(Datasource[bool, PessoaParametros]):
         return self.__external_mock.getData(parameters.idade >= 18)
 
 
-class UsecaseBaseCallDataTest(UsecaseBaseCallData[str, bool, PessoaParametros]):
-    def __call__(self, parameters: PessoaParametros) -> ReturnSuccessOrError[str]:
+class UsecaseBaseCallDataTest(
+        UsecaseBaseCallData[str, bool, PessoaParametros]):
+    def __call__(
+            self, parameters: PessoaParametros) -> ReturnSuccessOrError[str]:
         data = self.resultDatasource(
             parameters=parameters, datasource=self._datasource)
-        print('////////////////************')
-        print('data', data)
-        print('////////////////************')
         if isinstance(data, SuccessReturn):
             return SuccessReturn(success='Maior de idade')
         else:

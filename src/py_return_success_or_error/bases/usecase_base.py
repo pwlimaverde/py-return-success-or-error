@@ -13,11 +13,14 @@ TypeDatasource = TypeVar('TypeDatasource')
 TypeParameters = TypeVar('TypeParameters', bound=ParametersReturnResult)
 
 
-class UsecaseBaseCallData(ABC, Generic[TypeUsecase, TypeDatasource, TypeParameters], RepositoryMixin):
+class UsecaseBaseCallData(
+        ABC, Generic[TypeUsecase, TypeDatasource, TypeParameters], RepositoryMixin):
 
-    def __init__(self, datasource: Datasource[TypeDatasource, TypeParameters]) -> None:
+    def __init__(
+            self, datasource: Datasource[TypeDatasource, TypeParameters]) -> None:
         self._datasource = datasource
 
     @abstractmethod
-    def __call__(self, parameters: TypeParameters) -> ReturnSuccessOrError[TypeUsecase]:
-        pass
+    def __call__(
+            self, parameters: TypeParameters) -> ReturnSuccessOrError[TypeUsecase]:
+        pass   # pragma: no cover

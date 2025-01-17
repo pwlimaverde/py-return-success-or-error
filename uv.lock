@@ -477,6 +477,7 @@ dev = [
     { name = "taskipy" },
 ]
 doc = [
+    { name = "mkdocs" },
     { name = "mkdocs-material" },
     { name = "mkdocstrings" },
     { name = "mkdocstrings-python" },
@@ -496,6 +497,7 @@ dev = [
     { name = "taskipy", specifier = ">=1.14.1" },
 ]
 doc = [
+    { name = "mkdocs", specifier = ">=1.6.1" },
     { name = "mkdocs-material", specifier = ">=9.5.49" },
     { name = "mkdocstrings", specifier = ">=0.27.0" },
     { name = "mkdocstrings-python", specifier = ">=1.13.0" },
