@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from threading import current_thread
 
 from py_return_success_or_error import (
     AppError,
@@ -65,8 +66,13 @@ class UsecaseBaseCallDataTest(
         UsecaseBaseCallData[str, bool, PessoaParametros]):
     def __call__(
             self, parameters: PessoaParametros) -> ReturnSuccessOrError[str]:
-        data = self.resultDatasource(
+        data = self._resultDatasource(
             parameters=parameters, datasource=self._datasource)
+        current_thread_instance = current_thread()
+        print('')
+        print('***************')
+        print(f"Thread atual data: {current_thread_instance.name}")
+        print('***************')
         if isinstance(data, SuccessReturn):
             return SuccessReturn(success='Maior de idade')
         else:
@@ -77,6 +83,11 @@ class UsecaseBaseTest(
         UsecaseBase[bool, InfoParametros]):
     def __call__(
             self, parameters: InfoParametros) -> ReturnSuccessOrError[bool]:
+        current_thread_instance = current_thread()
+        print('')
+        print('***************')
+        print(f"Thread atual: {current_thread_instance.name}")
+        print('***************')
         if parameters.informacoes['teste'] == 'teste usecase':
             return SuccessReturn(success=True)
         else:

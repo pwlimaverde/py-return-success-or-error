@@ -16,7 +16,7 @@ TypeParameters = TypeVar('TypeParameters', bound=ParametersReturnResult)
 
 class RepositoryMixin():
 
-    def resultDatasource(
+    def _resultDatasource(
         self,
         parameters: TypeParameters,
         datasource: Datasource[TypeDatasource, TypeParameters]

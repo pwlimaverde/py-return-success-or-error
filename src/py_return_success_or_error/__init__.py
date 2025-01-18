@@ -14,4 +14,3 @@ from py_return_success_or_error.interfaces.parameters_return_result import (
     NoParams,
     ParametersReturnResult,
 )
-from py_return_success_or_error.mixins.repository_mixin import RepositoryMixin
