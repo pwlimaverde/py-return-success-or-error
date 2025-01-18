@@ -1,8 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
-
-from py_return_success_or_error.interfaces.parameters_return_result import (
+from py_return_success_or_error.imports import (
+    ABC,
+    Generic,
     ParametersReturnResult,
+    TypeVar,
+    abstractmethod,
 )
 
 TypeDatasource = TypeVar('TypeDatasource')

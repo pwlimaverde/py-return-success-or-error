@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
-
-from py_return_success_or_error.core.return_success_or_error import ReturnSuccessOrError
-from py_return_success_or_error.interfaces.datasource import Datasource
-from py_return_success_or_error.interfaces.parameters_return_result import (
+from py_return_success_or_error.imports import (
+    ABC,
+    Datasource,
+    Generic,
     ParametersReturnResult,
+    RepositoryMixin,
+    ReturnSuccessOrError,
+    ThreadMixin,
+    TypeVar,
+    abstractmethod,
 )
-from py_return_success_or_error.mixins.repository_mixin import RepositoryMixin
-from py_return_success_or_error.mixins.thread_mixin import ThreadMixin
 
 TypeUsecase = TypeVar('TypeUsecase')
 TypeDatasource = TypeVar('TypeDatasource')

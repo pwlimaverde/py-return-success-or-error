@@ -1,13 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar, Union
-
+from py_return_success_or_error.imports import (
+    ABC,
+    Generic,
+    Optional,
+    TypeVar,
+    Union,
+    abstractmethod,
+)
 from py_return_success_or_error.interfaces.app_error import AppError
 
-R = TypeVar('R')
+TypeData = TypeVar('TypeData')
 
 
-class ReturnSuccessOrError(ABC, Generic[R]):
-    def __init__(self, success: Optional[R] = None, error: Optional[AppError] = None) -> None:
+class ReturnSuccessOrError(ABC, Generic[TypeData]):
+    def __init__(self, success: Optional[TypeData] = None,
+                error: Optional[AppError] = None) -> None:
         """Inicializa a classe com um valor ou um erro."""
         if success is not None and error is not None:
             raise ValueError(
@@ -16,7 +22,7 @@ class ReturnSuccessOrError(ABC, Generic[R]):
         self.__error = error
 
     @property
-    def result(self) -> Union[R, AppError]:
+    def result(self) -> Union[TypeData, AppError]:
         """Retorna o success ou o erro."""
         if isinstance(self, SuccessReturn):
             if self.__success is None:
@@ -34,8 +40,8 @@ class ReturnSuccessOrError(ABC, Generic[R]):
         """Retorna a representação do success ou erro."""
 
 
-class SuccessReturn(ReturnSuccessOrError[R]):
-    def __init__(self, success: R) -> None:
+class SuccessReturn(ReturnSuccessOrError[TypeData]):
+    def __init__(self, success: TypeData) -> None:
         """Inicializa a classe com um valor."""
         super().__init__(success=success)
 
@@ -44,7 +50,7 @@ class SuccessReturn(ReturnSuccessOrError[R]):
         return f'Success: {self.result}'
 
 
-class ErrorReturn(ReturnSuccessOrError[R]):
+class ErrorReturn(ReturnSuccessOrError[TypeData]):
     def __init__(self, error: AppError) -> None:
         """Inicializa a classe com um valor."""
         super().__init__(error=error)

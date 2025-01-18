@@ -1,12 +1,9 @@
-from queue import Queue
-from threading import Thread
-from typing import TypeVar
-
-from py_return_success_or_error.core.return_success_or_error import (
-    ReturnSuccessOrError,
-)
-from py_return_success_or_error.interfaces.parameters_return_result import (
+from py_return_success_or_error.imports import (
     ParametersReturnResult,
+    Queue,
+    ReturnSuccessOrError,
+    Thread,
+    TypeVar,
 )
 
 TypeUsecase = TypeVar('TypeUsecase')

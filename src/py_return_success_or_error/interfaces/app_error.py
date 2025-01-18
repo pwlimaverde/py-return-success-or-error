@@ -1,5 +1,8 @@
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from py_return_success_or_error.imports import (
+    ABC,
+    abstractmethod,
+    dataclass,
+)
 
 
 @dataclass(kw_only=True)

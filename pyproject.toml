@@ -7,9 +7,7 @@ authors = [
     { name = "pwlimaverde", email = "pwlimaverde@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = [
-    "python-dotenv>=1.0.1",
-]
+dependencies = []
 
 [build-system]
 requires = ["hatchling"]
@@ -43,3 +41,6 @@ trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 line_length = 79
+
+[tool.ruff]
+exclude = ["__init__.py", "imports.py"]

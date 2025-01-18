@@ -1,13 +1,10 @@
-from typing import TypeVar
-
-from py_return_success_or_error.core.return_success_or_error import (
+from py_return_success_or_error.imports import (
+    Datasource,
     ErrorReturn,
+    ParametersReturnResult,
     ReturnSuccessOrError,
     SuccessReturn,
-)
-from py_return_success_or_error.interfaces.datasource import Datasource
-from py_return_success_or_error.interfaces.parameters_return_result import (
-    ParametersReturnResult,
+    TypeVar,
 )
 
 TypeDatasource = TypeVar('TypeDatasource')
