@@ -1,1 +1,20 @@
-site_name: My Docs
+site_name: Py Return Success or Error
+repo_url: https://github.com/pwlimaverde/py-return-success-or-error
+repo_name: py-return-success-or-error
+edit_uri: tree/master/docs
+
+theme:
+  name: material
+  language: pt-BR
+  logo: assets/logo.png
+  favicon: assets/logo.png
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/custom.css
