@@ -18,3 +18,11 @@ markdown_extensions:
 
 extra_css:
   - stylesheets/custom.css
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - "src/py_return_success_or_error/core"
+            - "src/py_return_success_or_error/interfaces"
