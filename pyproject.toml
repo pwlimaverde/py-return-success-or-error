@@ -1,7 +1,7 @@
 [project]
 name = "py-return-success-or-error"
 version = "0.3.0"
-description = "Add your description here"
+description = "A biblioteca `py-return-success-or-error` é uma solução robusta para tratamento de retornos e erros em aplicações Python, seguindo princípios de design limpo e arquitetura limpa."
 readme = "README.md"
 authors = [
     { name = "pwlimaverde", email = "pwlimaverde@gmail.com" }
