@@ -26,3 +26,4 @@ plugins:
           paths:
             - "src/py_return_success_or_error/core"
             - "src/py_return_success_or_error/interfaces"
+            - "src/py_return_success_or_error/bases"
