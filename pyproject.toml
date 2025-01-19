@@ -1,15 +1,13 @@
 [project]
 name = "py-return-success-or-error"
-version = "0.2.0"
-description = "Add your description here"
+version = "0.3.0"
+description = "A biblioteca `py-return-success-or-error` é uma solução robusta para tratamento de retornos e erros em aplicações Python, seguindo princípios de design limpo e arquitetura limpa."
 readme = "README.md"
 authors = [
     { name = "pwlimaverde", email = "pwlimaverde@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = [
-    "python-dotenv>=1.0.1",
-]
+dependencies = []
 
 [build-system]
 requires = ["hatchling"]
@@ -17,26 +15,33 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "autopep8>=1.6.0",
     "blue>=0.9.1",
     "isort>=5.13.2",
     "pytest>=8.3.4",
     "pytest-cov>=6.0.0",
+    "rich>=13.9.4",
     "ruff>=0.9.1",
     "taskipy>=1.14.1",
 ]
 doc = [
-    "mkdocs-material>=9.5.49",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.5.50",
     "mkdocstrings>=0.27.0",
     "mkdocstrings-python>=1.13.0",
 ]
 
 [tool.autopep8]
 max-line-length = 79
+aggressive = 1
 
 [tool.isort]
 profile = "black"
-multi_line_output = 0
+multi_line_output = 3
 trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
 line_length = 79
+
+[tool.ruff]
+exclude = ["__init__.py", "imports.py"]
