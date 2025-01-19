@@ -17,14 +17,15 @@ def setReturnSuccessOrError(result: bool) -> ReturnSuccessOrError[str]:
     if result:
         return SuccessReturn[str]('Teste ok')
     else:
-        return ErrorReturn[str](ErrorGeneric('Teste erro'))
+        return ErrorReturn[str](ErrorGeneric(message='Teste erro'))
 
 
 def testInstance():
     result_success_bool = SuccessReturn[bool](False)
     assert not result_success_bool.result
     assert str(result_success_bool) == 'Success: False'
-    result_error_bool = ErrorReturn[bool](ErrorGeneric('Teste de erro'))
+    result_error_bool = ErrorReturn[bool](
+        ErrorGeneric(message='Teste de erro'))
     assert result_error_bool.result.message == 'Teste de erro'
     assert str(result_error_bool) == 'Error: ErrorGeneric - Teste de erro'
 
