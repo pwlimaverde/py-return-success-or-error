@@ -144,19 +144,16 @@ TypeParameters = TypeVar('TypeParameters', bound=ParametersReturnResult)
 
 class UsecaseBase(
         ABC, Generic[TypeUsecase, TypeParameters], ThreadMixin):
-    # """Classe base abstrata para implementação de casos de uso simples.
+    """Classe base abstrata para implementação de casos de uso simples.
 
-    # Esta classe deve ser herdada para criar casos de uso que não necessitam
-    # de acesso direto a fontes de dados.
+    Esta classe deve ser herdada para criar casos de uso que não necessitam
+    de acesso direto a fontes de dados.
 
-    # Attributes:
-    #     Não possui atributos públicos.
+    Definição de Tipos de Retorno e Parâmetros:
+        Generic[TypeUsecase]: Tipo de retorno do caso de uso
 
-    # Definição de Tipos de Retorno e Parâmetros:
-    #     Generic[TypeUsecase]: Tipo de retorno do caso de uso
-
-    #     Generic[TypeParameters]: Tipo dos parâmetros de entrada
-    # """
+        Generic[TypeParameters]: Tipo dos parâmetros de entrada
+    """
 
     @abstractmethod
     def __call__(
@@ -174,21 +171,21 @@ class UsecaseBase(
 
 class UsecaseBaseCallData(
         ABC, Generic[TypeUsecase, TypeDatasource, TypeParameters], RepositoryMixin, ThreadMixin):
-    # """Classe base abstrata para implementação de casos de uso com acesso a dados.
+    """Classe base abstrata para implementação de casos de uso com acesso a dados.
 
-    # Esta classe deve ser herdada para criar casos de uso que necessitam
-    # de acesso a fontes de dados através de um datasource.
+    Esta classe deve ser herdada para criar casos de uso que necessitam
+    de acesso a fontes de dados através de um datasource.
 
-    # Attributes:
-    #     _datasource (Datasource): Fonte de dados utilizada pelo caso de uso
+    Attributes:
+        _datasource (Datasource): Fonte de dados utilizada pelo caso de uso
 
-    # Definição de Tipos de Retorno e Parâmetros:
-    #     Generic[TypeUsecase]: Tipo de retorno do caso de uso
+    Definição de Tipos de Retorno e Parâmetros:
+        Generic[TypeUsecase]: Tipo de retorno do caso de uso
 
-    #     Generic[TypeDatasource]: Tipo da fonte de dados
+        Generic[TypeDatasource]: Tipo da fonte de dados
 
-    #     Generic[TypeParameters]: Tipo dos parâmetros de entrada
-    # """
+        Generic[TypeParameters]: Tipo dos parâmetros de entrada
+    """
 
     def __init__(
             self, datasource: Datasource[TypeDatasource, TypeParameters]) -> None:
