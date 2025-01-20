@@ -4,9 +4,6 @@
 # Required
 version: 2
 
-mkdocs:
-  configuration: mkdocs.yml
-
 # Set the OS, Python version, and other tools you might need
 build:
   os: ubuntu-24.04
@@ -18,9 +15,14 @@ build:
       - asdf install uv latest
       - asdf global uv latest
       - uv venv
-    install:
-      - uv pip install .[doc]
+  commands:
+    - uv pip install .[doc]
+    - mkdocs --version
+    - cat mkdocs.yml
+    - mkdocs build --clean --site-dir $READTHEDOCS_OUTPUT/html --config-file mkdocs.yml
 
+mkdocs:
+  configuration: mkdocs.yml
 
 
 # Build documentation in the "docs/" directory with Sphinx
