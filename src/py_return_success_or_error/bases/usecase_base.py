@@ -161,14 +161,14 @@ class UsecaseBase(
     @abstractmethod
     def __call__(
             self, parameters: TypeParameters) -> ReturnSuccessOrError[TypeUsecase]:
-        # """Método abstrato para executar o caso de uso.
+        """Método abstrato para executar o caso de uso.
 
-        # Args:
-        #     parameters (TypeParameters): Parâmetros necessários para execução
+        Args:
+            parameters (TypeParameters): Parâmetros necessários para execução
 
-        # Returns:
-        #     ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
-        # """
+        Returns:
+            ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
+        """
         pass   # pragma: no cover
 
 
@@ -192,23 +192,23 @@ class UsecaseBaseCallData(
 
     def __init__(
             self, datasource: Datasource[TypeDatasource, TypeParameters]) -> None:
-        # """Inicializa o caso de uso com uma fonte de dados.
+        """Inicializa o caso de uso com uma fonte de dados.
 
-        # Args:
-        #     datasource (Datasource[TypeDatasource, TypeParameters]):
-        #         Fonte de dados a ser utilizada
-        # """
+        Args:
+            datasource (Datasource[TypeDatasource, TypeParameters]):
+                Fonte de dados a ser utilizada
+        """
         self._datasource = datasource
 
     @abstractmethod
     def __call__(
             self, parameters: TypeParameters) -> ReturnSuccessOrError[TypeUsecase]:
-        # """Método abstrato para executar o caso de uso.
+        """Método abstrato para executar o caso de uso.
 
-        # Args:
-        #     parameters (TypeParameters): Parâmetros necessários para execução
+        Args:
+            parameters (TypeParameters): Parâmetros necessários para execução
 
-        # Returns:
-        #     ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
-        # """
+        Returns:
+            ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
+        """
         pass   # pragma: no cover
