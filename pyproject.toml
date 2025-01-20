@@ -6,7 +6,20 @@ readme = "README.md"
 authors = [
     { name = "pwlimaverde", email = "pwlimaverde@gmail.com" }
 ]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Natural Language :: Portuguese (Brazilian)",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Error Handling",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
 requires-python = ">=3.13"
+documentation = "https://py-return-success-or-error.readthedocs.io/pt-br/latest/"
+homepage = "https://github.com/pwlimaverde/py-return-success-or-error"
 dependencies = []
 
 [build-system]
