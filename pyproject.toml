@@ -1,6 +1,6 @@
 [project]
 name = "py-return-success-or-error"
-version = "0.3.0"
+version = "0.4.0"
 description = "A biblioteca `py-return-success-or-error` é uma solução robusta para tratamento de retornos e erros em aplicações Python, seguindo princípios de design limpo e arquitetura limpa."
 readme = "README.md"
 authors = [
@@ -18,9 +18,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.13"
-documentation = "https://py-return-success-or-error.readthedocs.io/pt-br/latest/"
-homepage = "https://github.com/pwlimaverde/py-return-success-or-error"
 dependencies = []
+
+[project.urls]
+Documentation = "https://py-return-success-or-error.readthedocs.io/pt-br/latest/"
+Repository = "https://github.com/pwlimaverde/py-return-success-or-error"
+Issues = "https://github.com/pwlimaverde/py-return-success-or-error/issues"
 
 [build-system]
 requires = ["hatchling"]
