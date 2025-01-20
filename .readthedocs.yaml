@@ -15,10 +15,11 @@ build:
       - asdf install uv latest
       - asdf global uv latest
       - uv venv
-      - uv pip install .[doc]
-      - mkdocs --version
-      - cat mkdocs.yml
-      - mkdocs build --clean --site-dir $READTHEDOCS_OUTPUT/html --config-file mkdocs.yml
+    install:
+      - uv pip install -r pyproject.toml .[doc]
+    build:
+        html:
+          - uv run mkdocs build --strict --site-dir $READTHEDOCS_OUTPUT/html
 
 mkdocs:
   configuration: mkdocs.yml
