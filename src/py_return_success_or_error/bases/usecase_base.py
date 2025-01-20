@@ -161,54 +161,54 @@ class UsecaseBase(
     @abstractmethod
     def __call__(
             self, parameters: TypeParameters) -> ReturnSuccessOrError[TypeUsecase]:
-        """Método abstrato para executar o caso de uso.
+        # """Método abstrato para executar o caso de uso.
 
-        Args:
-            parameters (TypeParameters): Parâmetros necessários para execução
+        # Args:
+        #     parameters (TypeParameters): Parâmetros necessários para execução
 
-        Returns:
-            ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
-        """
+        # Returns:
+        #     ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
+        # """
         pass   # pragma: no cover
 
 
 class UsecaseBaseCallData(
         ABC, Generic[TypeUsecase, TypeDatasource, TypeParameters], RepositoryMixin, ThreadMixin):
-    """Classe base abstrata para implementação de casos de uso com acesso a dados.
+    # """Classe base abstrata para implementação de casos de uso com acesso a dados.
 
-    Esta classe deve ser herdada para criar casos de uso que necessitam
-    de acesso a fontes de dados através de um datasource.
+    # Esta classe deve ser herdada para criar casos de uso que necessitam
+    # de acesso a fontes de dados através de um datasource.
 
-    Attributes:
-        _datasource (Datasource): Fonte de dados utilizada pelo caso de uso
+    # Attributes:
+    #     _datasource (Datasource): Fonte de dados utilizada pelo caso de uso
 
-    Definição de Tipos de Retorno e Parâmetros:
-        Generic[TypeUsecase]: Tipo de retorno do caso de uso
+    # Definição de Tipos de Retorno e Parâmetros:
+    #     Generic[TypeUsecase]: Tipo de retorno do caso de uso
 
-        Generic[TypeDatasource]: Tipo da fonte de dados
+    #     Generic[TypeDatasource]: Tipo da fonte de dados
 
-        Generic[TypeParameters]: Tipo dos parâmetros de entrada
-    """
+    #     Generic[TypeParameters]: Tipo dos parâmetros de entrada
+    # """
 
     def __init__(
             self, datasource: Datasource[TypeDatasource, TypeParameters]) -> None:
-        """Inicializa o caso de uso com uma fonte de dados.
+        # """Inicializa o caso de uso com uma fonte de dados.
 
-        Args:
-            datasource (Datasource[TypeDatasource, TypeParameters]):
-                Fonte de dados a ser utilizada
-        """
+        # Args:
+        #     datasource (Datasource[TypeDatasource, TypeParameters]):
+        #         Fonte de dados a ser utilizada
+        # """
         self._datasource = datasource
 
     @abstractmethod
     def __call__(
             self, parameters: TypeParameters) -> ReturnSuccessOrError[TypeUsecase]:
-        """Método abstrato para executar o caso de uso.
+        # """Método abstrato para executar o caso de uso.
 
-        Args:
-            parameters (TypeParameters): Parâmetros necessários para execução
+        # Args:
+        #     parameters (TypeParameters): Parâmetros necessários para execução
 
-        Returns:
-            ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
-        """
+        # Returns:
+        #     ReturnSuccessOrError[TypeUsecase]: Resultado da execução do caso de uso
+        # """
         pass   # pragma: no cover
