@@ -19,7 +19,7 @@ build:
       - asdf global uv latest
       - uv venv
     install:
-      - uv pip install .[doc] && mkdocs --version
+      - uv pip install .[doc]
     build:
       html:
         - uv mkdocs build
