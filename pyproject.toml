@@ -6,6 +6,7 @@ readme = "README.md"
 authors = [
     { name = "pwlimaverde", email = "pwlimaverde@gmail.com" }
 ]
+license = "MIT"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Natural Language :: Portuguese (Brazilian)",
