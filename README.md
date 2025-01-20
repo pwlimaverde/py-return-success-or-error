@@ -1,4 +1,5 @@
 <img src="https://py-return-success-or-error.readthedocs.io/pt-br/latest/assets/logo.png" width="200" height="200">
+
 # py-return-success-or-error
 
 ## Instalação
