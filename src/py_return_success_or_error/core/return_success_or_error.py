@@ -1,9 +1,7 @@
 from py_return_success_or_error.imports import (
     ABC,
     Generic,
-    Optional,
     TypeVar,
-    Union,
     abstractmethod,
 )
 from py_return_success_or_error.interfaces.app_error import AppError
@@ -12,68 +10,54 @@ TypeData = TypeVar('TypeData')
 
 
 class ReturnSuccessOrError(ABC, Generic[TypeData]):
-    """Classe base abstrata para representar o retorno de uma operação com sucesso ou erro.
+    """Classe base para manipulação de retornos de operações.
 
-    Attributes:
-        __success (Optional[TypeData]): Valor de sucesso da operação.
-        __error (Optional[AppError]): Instância de AppError que descreve o erro ocorrido.
+    Provê uma estrutura para representar o resultado de uma operação,
+    seja ela bem-sucedida ou com erro.
+
+    Raises:
+        ValueError: Se a subclasse não for SuccessReturn ou AppError.
     """
-    def __init__(self, success: Optional[TypeData] = None,
-                error: Optional[AppError] = None) -> None:
-        """Inicializa a classe com um valor de sucesso ou um erro.
 
-        Args:
-            success (Optional[TypeData]): Valor de sucesso da operação.
-            error (Optional[AppError]): Instância de AppError que descreve o erro ocorrido.
-
-        Raises:
-            ValueError: Se ambos 'success' e 'error' forem definidos ao mesmo tempo.
-        """
-        if success is not None and error is not None:
-            raise ValueError(
-                "Não pode definir 'success' e 'error' ao mesmo tempo.")  # pragma: no cover
-        self.__success = success
-        self.__error = error
-
-    @property
-    def result(self) -> Union[TypeData, AppError]:
-        """Retorna o valor de sucesso ou o erro.
-
-        Returns:
-            Union[TypeData, AppError]: Valor de sucesso ou instância de AppError.
-
-        Raises:
-            ValueError: Se o valor de sucesso for nulo.
-        """
-        if isinstance(self, SuccessReturn):
-            if self.__success is None:
-                raise ValueError("Não pode retornar um valor nulo.")
-            return self.__success
-        elif isinstance(self, ErrorReturn):
-            if self.__error is None:
-                raise ValueError("Não pode retornar um valor nulo.")
-            return self.__error
-        else:
+    def __init__(self) -> None:
+        if not isinstance(self, (SuccessReturn, AppError)):
             raise ValueError("SubClass Invalida.")
 
     @abstractmethod
     def __str__(self) -> str:
-        """Retorna a representação do success ou erro."""
+        """Retorna a representação string do resultado.
+
+        Returns:
+            str: Representação textual do sucesso ou erro.
+        """
 
 
 class SuccessReturn(ReturnSuccessOrError[TypeData]):
-    """Classe que representa o retorno de uma operação bem-sucedida.
+    """Representa o resultado bem-sucedido de uma operação.
+
+    Esta classe é utilizada para encapsular o valor de retorno
+    quando uma operação é concluída com sucesso.
 
     Attributes:
-        __success (TypeData): Valor de sucesso da operação.
+        __success (TypeData): O valor retornado pela operação bem-sucedida.
+
+    Type Parameters:
+        TypeData: O tipo do dado retornado em caso de sucesso.
     """
+
     def __init__(self, success: TypeData) -> None:
         """Inicializa a classe com um valor de sucesso.
 
         Args:
             success (TypeData): Valor de sucesso da operação.
         """
-        super().__init__(success=success)
+        self.__success = success
+
+    @property
+    def result(self) -> TypeData:
+        if self.__success is None:
+            raise ValueError("Não pode retornar um valor nulo.")
+        return self.__success
 
     def __str__(self) -> str:
         """Retorna a representação do success."""
@@ -83,13 +67,42 @@ class SuccessReturn(ReturnSuccessOrError[TypeData]):
 class ErrorReturn(ReturnSuccessOrError[TypeData]):
     """Classe que representa o retorno de uma operação com erro.
 
+    Encapsula um objeto de erro (AppError) que contém os detalhes
+    da falha ocorrida durante a execução de uma operação.
+
     Attributes:
-        __error (AppError): Instância de AppError que descreve o erro ocorrido.
+        __error (AppError): Objeto que contém os detalhes do erro ocorrido.
+
+    Type Parameters:
+        TypeData: Tipo genérico para manter consistência com a classe base.
     """
+
     def __init__(self, error: AppError) -> None:
-        """Inicializa a classe com um valor."""
-        super().__init__(error=error)
+        """Inicializa uma nova instância de ErrorReturn.
+
+        Args:
+            error (AppError): Objeto de erro a ser encapsulado.
+        """
+        self.__error = error
+
+    @property
+    def result(self) -> AppError:
+        """Retorna o objeto de erro encapsulado.
+
+        Returns:
+            AppError: O objeto de erro armazenado.
+
+        Raises:
+            ValueError: Se o erro armazenado for None.
+        """
+        if self.__error is None:
+            raise ValueError("Não pode retornar um valor nulo.")
+        return self.__error
 
     def __str__(self) -> str:
-        """Retorna a representação do success."""
+        """Retorna a representação textual do erro.
+
+        Returns:
+            str: String formatada contendo a mensagem de erro.
+        """
         return f'Error: {self.result}'

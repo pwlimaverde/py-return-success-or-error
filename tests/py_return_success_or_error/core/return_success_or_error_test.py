@@ -42,6 +42,8 @@ def testSuccessNone():
     try:
         teste_none = SuccessReturn[str](None)
         result = teste_none.result
+        print()
+        print('#################')
         print(result)
         assert False
     except ValueError as e:
@@ -60,7 +62,7 @@ def testErrorNone():
 
 def testOtherReturn():
     try:
-        teste_none = OtherReturn(None)
+        teste_none = OtherReturn()
         result = teste_none.result
         print(result)
         assert False
