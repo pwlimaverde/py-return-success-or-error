@@ -83,6 +83,7 @@ def testUsecaseBaseNewThreadSucesso():
             'teste': 'teste usecase'},
         error=test_error)
     usecase = UsecaseBaseTest()
+
     result = usecase.runNewThread(parametros_mock)
 
     assert isinstance(result, ReturnSuccessOrError)

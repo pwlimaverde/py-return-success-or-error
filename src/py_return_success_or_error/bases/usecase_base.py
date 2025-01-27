@@ -143,7 +143,7 @@ TypeParameters = TypeVar('TypeParameters', bound=ParametersReturnResult)
 
 
 class UsecaseBase(
-        ABC, Generic[TypeUsecase, TypeParameters], ThreadMixin):
+        ABC, Generic[TypeUsecase, TypeParameters], ThreadMixin[TypeUsecase]):
     """Classe base abstrata para implementação de casos de uso simples.
 
     Esta classe deve ser herdada para criar casos de uso que não necessitam
@@ -170,7 +170,7 @@ class UsecaseBase(
 
 
 class UsecaseBaseCallData(
-        ABC, Generic[TypeUsecase, TypeDatasource, TypeParameters], RepositoryMixin, ThreadMixin):
+        ABC, Generic[TypeUsecase, TypeDatasource, TypeParameters], RepositoryMixin, ThreadMixin[TypeUsecase]):
     """Classe base abstrata para implementação de casos de uso com acesso a dados.
 
     Esta classe deve ser herdada para criar casos de uso que necessitam
