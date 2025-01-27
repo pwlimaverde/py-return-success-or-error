@@ -1,4 +1,5 @@
 from py_return_success_or_error.imports import (
+    Generic,
     ParametersReturnResult,
     Queue,
     ReturnSuccessOrError,
@@ -10,7 +11,7 @@ TypeUsecase = TypeVar('TypeUsecase')
 TypeParameters = TypeVar('TypeParameters', bound=ParametersReturnResult)
 
 
-class ThreadMixin():
+class ThreadMixin(Generic[TypeUsecase]):
     """
     Mixin para fornecer funcionalidade de execução em threads.
 
@@ -19,10 +20,6 @@ class ThreadMixin():
 
 
     """
-
-    def __call__(self, params):
-        # Implementação do método __call__
-        pass  # pragma: no cover
 
     def runNewThread(
             self, parameters: TypeParameters
@@ -50,4 +47,5 @@ class ThreadMixin():
         thread.start()
         thread.join()
         result = result_queue.get()
+
         return result
