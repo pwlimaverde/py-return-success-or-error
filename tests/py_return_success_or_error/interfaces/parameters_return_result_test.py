@@ -26,7 +26,8 @@ def testNoParams() -> None:
 
 
 def testParametrosGerais():
-    tete_params = PessoaParametros(nome='teste', idade=20)
+    tete_params = PessoaParametros(nome='teste', idade=20, error=ErrorTestData(message='teste erro ErrorTest', status_code=400))
+
     tete_params_gerais = InfoParametros(
         error=ErrorTestData(message='teste erro ErrorTest', status_code=400),
         informacoes={'teste': 'teste'},
