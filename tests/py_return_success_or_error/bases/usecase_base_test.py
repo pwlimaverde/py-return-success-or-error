@@ -13,7 +13,7 @@ from tests.helpers import (
 def testUsecaseBaseCallDataSucesso():
     external_mock = ExternalMock()
     datasource_mock = DataSourceTest(external_mock)
-    parametros_mock = PessoaParametros(nome='teste', idade=18)
+    parametros_mock = PessoaParametros(nome='teste', idade=18, error=ErrorTestData(message='teste erro ErrorTest', status_code=400))
     usecase = UsecaseBaseCallDataTest(datasource_mock)
     result = usecase(parametros_mock)
 
@@ -28,7 +28,7 @@ def testUsecaseBaseCallDataSucesso():
 def testUsecaseBaseCallDataErro():
     external_mock = ExternalMock()
     datasource_mock = DataSourceTest(external_mock)
-    parametros_mock = PessoaParametros(nome='teste', idade=16)
+    parametros_mock = PessoaParametros(nome='teste', idade=16, error=ErrorTestData(message='teste erro ErrorTest', status_code=400))
     usecase = UsecaseBaseCallDataTest(datasource_mock)
     result = usecase(parametros_mock)
 
@@ -42,7 +42,7 @@ def testUsecaseBaseCallDataErro():
 
 
 def testUsecaseBaseSucesso():
-    test_error = ErrorTestData(message='teste erro ErrorTest', status_code=400)
+    test_error = ErrorTestData(message='teste erro ErrorTest', status_code=400, )
     parametros_mock = InfoParametros(
         informacoes={
             'teste': 'teste usecase'},
@@ -115,7 +115,7 @@ def testUsecaseBaseNewThreadErrro():
 def testUsecaseBaseCallDataNewThreadSucesso():
     external_mock = ExternalMock()
     datasource_mock = DataSourceTest(external_mock)
-    parametros_mock = PessoaParametros(nome='teste', idade=18)
+    parametros_mock = PessoaParametros(nome='teste', idade=18, error=ErrorTestData(message='teste erro ErrorTest', status_code=400))
     usecase = UsecaseBaseCallDataTest(datasource_mock)
     result = usecase.runNewThread(parametros_mock)
 
@@ -130,7 +130,7 @@ def testUsecaseBaseCallDataNewThreadSucesso():
 def testUsecaseBaseCallDataThreadErro():
     external_mock = ExternalMock()
     datasource_mock = DataSourceTest(external_mock)
-    parametros_mock = PessoaParametros(nome='teste', idade=16)
+    parametros_mock = PessoaParametros(nome='teste', idade=16, error=ErrorTestData(message='teste erro ErrorTest', status_code=400))
     usecase = UsecaseBaseCallDataTest(datasource_mock)
     result = usecase.runNewThread(parametros_mock)
 

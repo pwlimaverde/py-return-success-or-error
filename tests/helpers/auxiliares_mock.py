@@ -25,11 +25,7 @@ class ErrorTestData(AppError):
 class PessoaParametros(ParametersReturnResult):
     nome: str
     idade: int
-    error: AppError = field(default_factory=lambda: ErrorTestData(
-        message='teste erro ErrorTest', status_code=400))
-
-    def __post_init__(self):
-        super().__init__(error=self.error)
+    error: ErrorTestData
 
     def __str__(self) -> str:
         return f'TestesParametros(nome={self.nome}, idade={
