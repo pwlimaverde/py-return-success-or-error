@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.13", "3.14"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Sincronizar dependências
+        run: uv sync --all-groups
+
+      - name: Lint (ruff + isort)
+        run: uv run task lint
+
+      - name: Type check (mypy strict)
+        run: uv run mypy
+
+      - name: Testes + cobertura
+        run: uv run pytest
+
+      - name: Executar samples
+        run: uv run python samples/main.py
+
+      - name: Build do pacote
+        run: uv build
