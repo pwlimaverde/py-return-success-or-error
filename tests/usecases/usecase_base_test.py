@@ -201,3 +201,49 @@ async def test_resultado_nil() -> None:
     vazio = await BuscaOpcionalUsecase()(NumeroParameters(numero=0))
     assert assert_success(encontrado) == 7
     assert assert_success(vazio) is NIL
+
+
+async def test_dispatch_to_background_e_sobrescrevivel() -> None:
+    """O despacho de background é um ponto de extensão (executor
+    customizado — ex.: InterpreterPoolExecutor no 3.14+)."""
+    from collections.abc import Callable
+    from concurrent.futures import ThreadPoolExecutor
+
+    class ExecutorCustomizado(DobroUsecase):
+        def __init__(self) -> None:
+            super().__init__(run_in_background=True)
+            self.dispatch_usado = False
+
+        async def _dispatch_to_background(
+            self,
+            run: Callable[[], ReturnSuccessOrError[int, TestError]],
+        ) -> ReturnSuccessOrError[int, TestError]:
+            self.dispatch_usado = True
+            loop = asyncio.get_running_loop()
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                return await loop.run_in_executor(executor, run)
+
+    usecase = ExecutorCustomizado()
+    result = await usecase(NumeroParameters(numero=21))
+    assert assert_success(result) == 42
+    assert usecase.dispatch_usado is True
+
+
+async def test_dispatch_nao_e_usado_no_modo_direto() -> None:
+    from collections.abc import Callable
+
+    class EspiaoDispatch(DobroUsecase):
+        def __init__(self) -> None:
+            super().__init__(run_in_background=False)
+            self.dispatch_usado = False
+
+        async def _dispatch_to_background(
+            self,
+            run: Callable[[], ReturnSuccessOrError[int, TestError]],
+        ) -> ReturnSuccessOrError[int, TestError]:
+            self.dispatch_usado = True
+            return run()
+
+    usecase = EspiaoDispatch()
+    await usecase(NumeroParameters(numero=1))
+    assert usecase.dispatch_usado is False

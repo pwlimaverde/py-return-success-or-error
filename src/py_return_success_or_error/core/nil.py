@@ -29,6 +29,9 @@ class Nil:
     def __reduce__(self) -> str:
         return 'NIL'
 
+    def __repr__(self) -> str:
+        return 'NIL'
+
     def __str__(self) -> str:
         return 'Nil - null'
 

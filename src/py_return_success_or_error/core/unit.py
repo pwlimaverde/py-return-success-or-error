@@ -27,6 +27,9 @@ class Unit:
     def __reduce__(self) -> str:
         return 'UNIT'
 
+    def __repr__(self) -> str:
+        return 'UNIT'
+
     def __str__(self) -> str:
         return 'Unit - void'
 

@@ -10,8 +10,9 @@ def test_nil_e_singleton() -> None:
     assert Nil() is Nil()
 
 
-def test_nil_str() -> None:
+def test_nil_str_e_repr() -> None:
     assert str(NIL) == 'Nil - null'
+    assert repr(NIL) == 'NIL'
 
 
 def test_nil_sobrevive_ao_pickle() -> None:

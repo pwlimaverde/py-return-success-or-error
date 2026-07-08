@@ -13,6 +13,7 @@ Reescrita completa espelhando a lib irmã em C# ([ReturnSuccessOrError](https://
 - `AppError` como **valor imutável** (não herda mais de `Exception`), com `with_message()` preservando o tipo concreto; `ErrorGeneric` para o caso inesperado.
 - Arquitetura em camadas: `DataSource` (porta burra async que lança), `Repository`/`RepositoryBase` (anticorrupção com `map_error` abstrato), `UsecaseBase` e `UsecaseBaseCallData` (FETCH → CURTO-CIRCUITO → PROCESS).
 - `UsecaseExecutorBase` com `run_in_background` (despacho do `process` CPU-bound via `asyncio.to_thread`), `monitor_execution_time` + `on_execution_time_measured`, `on_unexpected` abstrato e fábricas `ok`/`fail`.
+- `_dispatch_to_background` **sobrescrevível**: o despacho de background é um ponto de extensão — plugue `InterpreterPoolExecutor` (Python 3.14+, PEP 734) ou `ProcessPoolExecutor` para paralelismo real de CPU; no CPython free-threaded (3.14+, PEP 779) o padrão em thread já dá paralelismo real. Suporte declarado a Python 3.13 e 3.14.
 - Semântica de cancelamento asyncio: `CancelledError` **sempre propaga** (nunca vira `Failure`); cancelamento pendente é entregue antes do `process` nos dois modos de execução.
 - `samples/` com três features completas (check_connection, fibonacci, sales_report) demonstrando a convenção de composição: service facade + `add_xxx_feature(container)` + agregador `add_features` — **DI mora inteiramente fora do core**.
 - Tipagem estrita como feature: `mypy --strict` em src, tests e samples; pacote continua PEP 561 (`py.typed`).

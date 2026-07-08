@@ -26,11 +26,12 @@ class UsecaseExecutorBase[TValue, TError](ABC):
 
     Attributes:
         run_in_background: Se verdadeiro, o ``process`` (CPU-bound) roda
-            numa thread via ``asyncio.to_thread`` (análogo do
-            ``Task.Run``), mantendo o event loop responsivo. Atenção aos
-            limites do CPython: o GIL impede paralelismo real de CPU
-            puro, e uma thread já iniciada não é interrompida pelo
-            cancelamento da task.
+            fora do event loop via :meth:`_dispatch_to_background`
+            (padrão: ``asyncio.to_thread``, análogo do ``Task.Run``),
+            mantendo o loop responsivo. No build padrão do CPython o
+            GIL limita o paralelismo de CPU puro (no free-threaded,
+            3.14+, o paralelismo é real); uma thread já iniciada não é
+            interrompida pelo cancelamento da task.
         monitor_execution_time: Se verdadeiro, mede o tempo de execução
             e o entrega a :meth:`on_execution_time_measured`.
     """
@@ -139,12 +140,39 @@ class UsecaseExecutorBase[TValue, TError](ABC):
         self.on_execution_time_measured(elapsed)
         return result
 
+    async def _dispatch_to_background(
+        self,
+        run: Callable[[], ReturnSuccessOrError[TValue, TError]],
+    ) -> ReturnSuccessOrError[TValue, TError]:
+        """Despacha o processamento quando ``run_in_background`` está
+        habilitado.
+
+        **Virtual**: o padrão é ``asyncio.to_thread`` (≙ ``Task.Run``),
+        que mantém o event loop responsivo. No CPython **free-threaded**
+        (3.14+, PEP 779) isso já dá paralelismo real de CPU; no build
+        padrão, o GIL limita o paralelismo de CPU puro — sobrescreva
+        para usar outro executor quando precisar, por exemplo o
+        ``InterpreterPoolExecutor`` do Python 3.14+ (PEP 734)::
+
+            async def _dispatch_to_background(self, run):
+                loop = asyncio.get_running_loop()
+                return await loop.run_in_executor(self._executor, run)
+
+        Args:
+            run: O processamento já protegido (nunca lança, exceto
+                cancelamento).
+
+        Returns:
+            O resultado do processamento.
+        """
+        return await asyncio.to_thread(run)
+
     async def _process_stage(
         self,
         process: Callable[[], ReturnSuccessOrError[TValue, TError]],
     ) -> ReturnSuccessOrError[TValue, TError]:
         """Executa o ``process`` direto ou, se ``run_in_background``,
-        numa thread.
+        via :meth:`_dispatch_to_background`.
 
         Em **ambos** os modos, uma exceção inesperada é convertida via
         :meth:`on_unexpected` em ``Failure`` — o ``process`` nunca
@@ -168,4 +196,4 @@ class UsecaseExecutorBase[TValue, TError](ABC):
         if not self.run_in_background:
             return guarded()
 
-        return await asyncio.to_thread(guarded)
+        return await self._dispatch_to_background(guarded)

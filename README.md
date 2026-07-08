@@ -179,7 +179,16 @@ await usecase(parameters)
                 (asyncio.CancelledError sempre propaga)
 ```
 
-- `run_in_background=True` despacha o `process` para uma thread via `asyncio.to_thread` (≙ `Task.Run`), mantendo o event loop responsivo. Atenção: o GIL limita paralelismo de CPU puro, e uma thread já iniciada não é interrompida pelo cancelamento.
+- `run_in_background=True` despacha o `process` para fora do event loop via `_dispatch_to_background` (padrão: `asyncio.to_thread`, ≙ `Task.Run`), mantendo o loop responsivo. No build padrão do CPython o GIL limita o paralelismo de CPU puro — no **free-threaded (3.14+, PEP 779)** o paralelismo é real. Uma thread já iniciada não é interrompida pelo cancelamento. Precisa de mais? `_dispatch_to_background` é **sobrescrevível** — plugue um `InterpreterPoolExecutor` (3.14+, PEP 734) ou `ProcessPoolExecutor`:
+
+```python
+class MeuUsecase(FibonacciUsecase):
+    _executor = InterpreterPoolExecutor(max_workers=4)  # Python 3.14+
+
+    async def _dispatch_to_background(self, run):
+        loop = asyncio.get_running_loop()
+        return await loop.run_in_executor(self._executor, run)
+```
 - `monitor_execution_time=True` mede a execução e chama `on_execution_time_measured(elapsed)` — o padrão loga em DEBUG; sobrescreva para integrar à sua observabilidade.
 
 ## Estrutura de código recomendada (por feature)
