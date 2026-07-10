@@ -1,4 +1,4 @@
-"""Asserções que estreitam o resultado (≙ ResultAssertions.cs)."""
+"""Asserções que estreitam o resultado."""
 
 from py_return_success_or_error.core.return_success_or_error import (
     Failure,

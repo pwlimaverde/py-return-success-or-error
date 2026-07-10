@@ -1,4 +1,4 @@
-"""Caso de uso da feature CheckConnection."""
+"""Caso de uso da feature."""
 
 from py_return_success_or_error import (
     ErrorGeneric,
@@ -7,7 +7,10 @@ from py_return_success_or_error import (
     UsecaseBaseCallData,
 )
 
-from features.check_connection.errors import CheckConnectionError, Offline
+from features.check_connection.domain.errors import (
+    CheckConnectionError,
+    Offline,
+)
 
 
 class CheckConnectionUsecase(

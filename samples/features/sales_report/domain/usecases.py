@@ -1,6 +1,4 @@
-"""Caso de uso da feature SalesReport."""
-
-from dataclasses import dataclass
+"""Caso de uso da feature."""
 
 from py_return_success_or_error import (
     ErrorGeneric,
@@ -9,17 +7,9 @@ from py_return_success_or_error import (
     UsecaseBaseCallData,
 )
 
-from features.sales_report.datasources import SalesReportParameters, SalesRows
-from features.sales_report.errors import SalesReportError, SemVendas
-
-
-@dataclass(frozen=True)
-class SalesReport:
-    """Relatório consolidado de vendas."""
-
-    total: float
-    quantidade: int
-    ticket_medio: float
+from features.sales_report.domain.errors import SalesReportError, SemVendas
+from features.sales_report.domain.models import SalesReport, SalesRows
+from features.sales_report.domain.parameters import SalesReportParameters
 
 
 class GenerateSalesReportUsecase(

@@ -1,10 +1,21 @@
-"""Registro da feature CheckConnection (≙ AddCheckConnectionFeature)."""
+"""Registro de DI da feature.
+
+Encadeia as camadas — DataSource → Repository → UseCase → Service — e
+expõe o CONTRATO (``CheckConnectionService``), nunca a implementação.
+"""
 
 from composition.container import Container
-from features.check_connection.datasources import FakeConnectivityDataSource
-from features.check_connection.repositories import CheckConnectionRepository
-from features.check_connection.services import CheckConnectionService
-from features.check_connection.usecases import CheckConnectionUsecase
+from features.check_connection.datasources.fake_connectivity_datasource import (  # noqa: E501
+    FakeConnectivityDataSource,
+)
+from features.check_connection.domain.services import CheckConnectionService
+from features.check_connection.domain.usecases import CheckConnectionUsecase
+from features.check_connection.repositories.check_connection_repository import (  # noqa: E501
+    CheckConnectionRepository,
+)
+from features.check_connection.services.check_connection_service import (
+    CheckConnectionServiceImpl,
+)
 
 
 def add_check_connection_feature(container: Container) -> Container:
@@ -28,7 +39,7 @@ def add_check_connection_feature(container: Container) -> Container:
         )
         .add_singleton(
             CheckConnectionService,
-            lambda c: CheckConnectionService(
+            lambda c: CheckConnectionServiceImpl(
                 c.resolve(CheckConnectionUsecase)
             ),
         )

@@ -1,4 +1,4 @@
-"""União fechada de erros da feature SalesReport."""
+"""União fechada de erros da feature."""
 
 from dataclasses import dataclass
 

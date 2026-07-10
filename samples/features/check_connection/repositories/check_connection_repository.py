@@ -1,8 +1,8 @@
-"""Camada anticorrupção da feature CheckConnection."""
+"""Camada anticorrupção da feature."""
 
 from py_return_success_or_error import ErrorGeneric, NoParams, RepositoryBase
 
-from features.check_connection.errors import (
+from features.check_connection.domain.errors import (
     CheckConnectionError,
     ConnectionTimeout,
 )

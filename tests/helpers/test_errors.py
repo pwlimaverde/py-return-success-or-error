@@ -1,4 +1,4 @@
-"""União fechada de erros reutilizada pelos testes (≙ TestErrors.cs)."""
+"""União fechada de erros reutilizada pelos testes."""
 
 from dataclasses import dataclass
 from typing import assert_never

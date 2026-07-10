@@ -1,8 +1,8 @@
 """Representa uma operação concluída **sem valor de retorno**.
 
-O análogo do ``Unit`` do C#: como ``None`` não distingue "sem valor" de
-"valor ausente por erro", usa-se ``Unit`` como ``TValue`` quando o caso de
-uso não produz dado algum — ``ReturnSuccessOrError[Unit, MeuErro]``.
+Como ``None`` não distingue "sem valor" de "valor ausente por erro",
+usa-se ``Unit`` como ``TValue`` quando o caso de uso não produz dado
+algum — ``ReturnSuccessOrError[Unit, MeuErro]``.
 """
 
 from typing import ClassVar, Final, final

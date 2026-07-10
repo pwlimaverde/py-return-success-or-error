@@ -1,4 +1,4 @@
-"""Testes dos parâmetros (≙ ParametersTests.cs)."""
+"""Testes dos parâmetros."""
 
 import pickle
 from dataclasses import dataclass

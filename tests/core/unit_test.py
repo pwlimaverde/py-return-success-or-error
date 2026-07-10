@@ -1,4 +1,4 @@
-"""Testes do singleton Unit (≙ UnitTests.cs)."""
+"""Testes do singleton Unit."""
 
 import pickle
 

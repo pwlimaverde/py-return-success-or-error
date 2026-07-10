@@ -1,4 +1,4 @@
-"""Composition root dos samples (≙ Program.cs).
+"""Composition root dos samples.
 
 Executa as três features demonstrando: sucesso, erro de negócio,
 curto-circuito, background e medição de tempo. O consumo dos resultados
@@ -16,12 +16,17 @@ from py_return_success_or_error import ErrorGeneric, Failure, Success
 
 from composition.container import Container
 from composition.feature_registration import add_features
-from features.check_connection.errors import ConnectionTimeout, Offline
-from features.check_connection.services import CheckConnectionService
-from features.fibonacci.errors import EntradaInvalida
-from features.fibonacci.services import FibonacciService
-from features.sales_report.errors import BaseIndisponivel, SemVendas
-from features.sales_report.services import SalesReportService
+from features.check_connection import (
+    CheckConnectionService,
+    ConnectionTimeout,
+    Offline,
+)
+from features.fibonacci import EntradaInvalida, FibonacciService
+from features.sales_report import (
+    BaseIndisponivel,
+    SalesReportService,
+    SemVendas,
+)
 
 
 async def demo_check_connection(service: CheckConnectionService) -> None:

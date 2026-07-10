@@ -1,4 +1,4 @@
-"""Caso de uso com busca de dados (≙ UsecaseBaseCallData.cs)."""
+"""Caso de uso com busca de dados."""
 
 from abc import abstractmethod
 from typing import assert_never

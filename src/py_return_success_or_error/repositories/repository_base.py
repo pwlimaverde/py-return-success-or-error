@@ -18,8 +18,7 @@ class RepositoryBase[TData, TParams: Parameters, TError](
 ):
     """Camada anticorrupção sobre um :class:`DataSource`.
 
-    Envolve a chamada ao datasource numa fronteira try/except (o análogo
-    do ``RepositoryBase.CallAsync`` do C#):
+    Envolve a chamada ao datasource numa fronteira try/except:
 
     - sucesso → ``Success[TData]``;
     - exceção técnica → :meth:`map_error` → ``Failure[TError]``;

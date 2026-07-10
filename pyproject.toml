@@ -64,6 +64,13 @@ strict = true
 files = ["src", "tests", "samples"]
 mypy_path = "src"
 
+# Os samples registram e resolvem CONTRATOS (ABCs) como chave de DI. O
+# mypy proíbe classe abstrata onde se espera type[T] (python/mypy#4717),
+# então liberamos esse código de erro só nos módulos dos samples.
+[[tool.mypy.overrides]]
+module = ["composition.*", "features.*", "main"]
+disable_error_code = ["type-abstract"]
+
 [tool.taskipy.tasks]
 lint = "ruff check src tests samples"
 format = "ruff check --fix src tests samples && ruff format src tests samples"

@@ -1,4 +1,4 @@
-"""Testes do tipo de resultado (≙ ReturnSuccessOrErrorTests.cs)."""
+"""Testes do tipo de resultado."""
 
 from typing import assert_never
 

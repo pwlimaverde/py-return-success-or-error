@@ -1,4 +1,4 @@
-"""Testes da porta de dados (≙ DataSourceTests.cs)."""
+"""Testes da porta de dados."""
 
 from dataclasses import dataclass
 

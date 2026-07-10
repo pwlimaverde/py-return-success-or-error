@@ -1,7 +1,7 @@
 """Representa o **nulo como resultado válido e esperado**.
 
-O análogo do ``Nil`` do C#: quando "não encontrado" é um sucesso legítimo
-(e não uma falha), use ``Nil`` no valor — por exemplo
+Quando "não encontrado" é um sucesso legítimo (e não uma falha), use
+``Nil`` no valor — por exemplo
 ``ReturnSuccessOrError[Cliente | Nil, MeuErro]`` — em vez de ``None``,
 que ficaria ambíguo, ou de um caso de erro, que forçaria o chamador a
 tratar um não-erro como falha.

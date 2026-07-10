@@ -4,8 +4,6 @@
 
 Result/Either com **erro fechado por feature** para Clean Architecture em Python: `DataSource → Repository → Usecase`, async-first, tipagem estrita e **zero dependências**.
 
-Versão irmã da lib C# [ReturnSuccessOrError](https://github.com/pwlimaverde/return-success-or-error) — mesma filosofia, mesmo desenho de camadas, mesma estratégia de composição.
-
 ## A solução por design
 
 Cada feature declara o seu **conjunto fechado de erros** — uma união de tipos concretos — e o resultado é parametrizado nesse conjunto:

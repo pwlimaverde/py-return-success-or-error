@@ -1,4 +1,4 @@
-"""Testes do modelo de erro (≙ AppErrorTests.cs)."""
+"""Testes do modelo de erro."""
 
 import pytest
 

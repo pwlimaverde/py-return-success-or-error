@@ -43,8 +43,7 @@ class AppError(ABC):
     def with_message(self, message: str) -> Self:
         """Devolve uma **nova** instância com ``message`` substituída.
 
-        Preserva o tipo concreto e os demais campos — o análogo do
-        ``this with { Message = message }`` do C#.
+        Preserva o tipo concreto e os demais campos.
 
         Args:
             message: A nova mensagem.

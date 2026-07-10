@@ -1,4 +1,4 @@
-"""Testes do singleton Nil (≙ NilTests.cs)."""
+"""Testes do singleton Nil."""
 
 import pickle
 

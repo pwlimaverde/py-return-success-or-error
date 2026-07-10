@@ -1,4 +1,4 @@
-"""Caso de uso de lógica pura, sem acesso a dados (≙ UsecaseBase.cs)."""
+"""Caso de uso de lógica pura, sem acesso a dados."""
 
 from abc import abstractmethod
 

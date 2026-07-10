@@ -1,10 +1,10 @@
 """O tipo de resultado da biblioteca: uma união fechada de sucesso ou falha.
 
 ``ReturnSuccessOrError[TValue, TError]`` é um alias de união de
-:class:`Success` e :class:`Failure` — o análogo Python do ``union`` nativo
-do C#. O erro é **parametrizado por feature**: cada caso de uso declara o
-seu conjunto fechado de erros (tipicamente uma união de tipos concretos),
-e o consumidor trata todos os casos de forma exaustiva.
+:class:`Success` e :class:`Failure`. O erro é **parametrizado por
+feature**: cada caso de uso declara o seu conjunto fechado de erros
+(tipicamente uma união de tipos concretos), e o consumidor trata todos os
+casos de forma exaustiva.
 
 Consumo canônico (exaustivo, provado pelo mypy/pyright)::
 
@@ -16,8 +16,7 @@ Consumo canônico (exaustivo, provado pelo mypy/pyright)::
         case _:
             assert_never(result)
 
-Para o estilo funcional, use a função :func:`match` — o equivalente ao
-``Match`` do C#.
+Para o estilo funcional, use a função :func:`match`.
 """
 
 from collections.abc import Callable
@@ -30,8 +29,7 @@ from typing import assert_never, final
 class Success[TValue]:
     """Caso de **sucesso** do resultado, carregando o valor produzido.
 
-    Imutável e com igualdade por valor, como o ``record Success<TValue>``
-    do C#.
+    Imutável e com igualdade por valor.
 
     Attributes:
         value: O valor de sucesso.
@@ -48,9 +46,8 @@ class Success[TValue]:
 class Failure[TError]:
     """Caso de **falha** do resultado, carregando o erro ocorrido.
 
-    Imutável e com igualdade por valor, como o ``record Failure<TError>``
-    do C#. ``TError`` é o conjunto fechado de erros da feature — não há
-    erro universal imposto pela biblioteca.
+    Imutável e com igualdade por valor. ``TError`` é o conjunto fechado
+    de erros da feature — não há erro universal imposto pela biblioteca.
 
     Attributes:
         error: O erro da feature.
@@ -67,8 +64,7 @@ type ReturnSuccessOrError[TValue, TError] = (
 )
 """União fechada de :class:`Success` e :class:`Failure`.
 
-O análogo do ``union ReturnSuccessOrError<TValue, TError>`` do C#: só
-existem dois casos, e o ``match/case`` com ``assert_never`` prova a
+Só existem dois casos, e o ``match/case`` com ``assert_never`` prova a
 cobertura de ambos em tempo de checagem de tipos.
 """
 
@@ -81,8 +77,7 @@ def match[TValue, TError, TResult](
 ) -> TResult:
     """Consome o resultado de forma exaustiva, no estilo funcional.
 
-    Equivalente ao ``Match(onSuccess, onError)`` do C#: exatamente um dos
-    dois ramos é executado e o seu retorno é devolvido.
+    Exatamente um dos dois ramos é executado e o seu retorno é devolvido.
 
     Args:
         result: O resultado a consumir.

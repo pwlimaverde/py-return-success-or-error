@@ -1,9 +1,13 @@
-"""Camada anticorrupção da feature SalesReport."""
+"""Camada anticorrupção da feature."""
 
 from py_return_success_or_error import ErrorGeneric, RepositoryBase
 
-from features.sales_report.datasources import SalesReportParameters, SalesRows
-from features.sales_report.errors import BaseIndisponivel, SalesReportError
+from features.sales_report.domain.errors import (
+    BaseIndisponivel,
+    SalesReportError,
+)
+from features.sales_report.domain.models import SalesRows
+from features.sales_report.domain.parameters import SalesReportParameters
 
 
 class SalesReportRepository(

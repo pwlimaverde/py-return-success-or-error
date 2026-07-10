@@ -1,4 +1,4 @@
-"""Testes da camada anticorrupção (≙ RepositoryTests.cs)."""
+"""Testes da camada anticorrupção."""
 
 import asyncio
 from dataclasses import dataclass

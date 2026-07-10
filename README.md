@@ -4,8 +4,6 @@
 
 Result/Either com **erro fechado por feature** para Clean Architecture em Python: `DataSource → Repository → Usecase`, async-first, tipagem estrita e **zero dependências**.
 
-> Versão irmã da lib C# [ReturnSuccessOrError](https://github.com/pwlimaverde/return-success-or-error) — mesma filosofia, mesmo desenho de camadas, mesma estratégia de composição.
-
 ## O problema
 
 Exceções são ótimas para falhas técnicas, mas péssimas como contrato de domínio: o chamador não sabe quais falhas pode receber, nada o obriga a tratá-las, e o "catch genérico" espalha `except Exception` pelo código. E um Result com erro universal (um `AppError` fixo para tudo) resolve só metade: o chamador continua sem saber **quais** erros aquela feature pode produzir.
@@ -20,7 +18,7 @@ type CheckConnectionError = Offline | ConnectionTimeout | ErrorGeneric
 result: ReturnSuccessOrError[str, CheckConnectionError]
 ```
 
-O consumo é **exaustivo**: com `match/case` + `assert_never`, o mypy/pyright prova em tempo de checagem que nenhum caso ficou sem tratamento — o análogo Python da exaustividade do compilador C# sobre uma `union`.
+O consumo é **exaustivo**: com `match/case` + `assert_never`, o mypy/pyright prova em tempo de checagem que nenhum caso ficou sem tratamento.
 
 As falhas têm três origens, todas convergindo para a união fechada:
 
@@ -152,7 +150,7 @@ match result:
 |---|---|
 | `ReturnSuccessOrError[TValue, TError]` | União fechada `Success \| Failure` — o contrato de retorno |
 | `Success[TValue]` / `Failure[TError]` | Casos imutáveis com igualdade por valor |
-| `match(result, on_success=..., on_error=...)` | Consumo funcional (≙ `Match` do C#) |
+| `match(result, on_success=..., on_error=...)` | Consumo funcional |
 | `Unit` / `UNIT` | Operação sem valor de retorno (`ReturnSuccessOrError[Unit, E]`) |
 | `Nil` / `NIL` | Nulo como resultado **válido** (`ReturnSuccessOrError[Cliente \| Nil, E]`) |
 | `AppError` | Base opcional de erros: valor imutável, `message`, `with_message()` |
@@ -179,7 +177,7 @@ await usecase(parameters)
                 (asyncio.CancelledError sempre propaga)
 ```
 
-- `run_in_background=True` despacha o `process` para fora do event loop via `_dispatch_to_background` (padrão: `asyncio.to_thread`, ≙ `Task.Run`), mantendo o loop responsivo. No build padrão do CPython o GIL limita o paralelismo de CPU puro — no **free-threaded (3.14+, PEP 779)** o paralelismo é real. Uma thread já iniciada não é interrompida pelo cancelamento. Precisa de mais? `_dispatch_to_background` é **sobrescrevível** — plugue um `InterpreterPoolExecutor` (3.14+, PEP 734) ou `ProcessPoolExecutor`:
+- `run_in_background=True` despacha o `process` para fora do event loop via `_dispatch_to_background` (padrão: `asyncio.to_thread`), mantendo o loop responsivo. No build padrão do CPython o GIL limita o paralelismo de CPU puro — no **free-threaded (3.14+, PEP 779)** o paralelismo é real. Uma thread já iniciada não é interrompida pelo cancelamento. Precisa de mais? `_dispatch_to_background` é **sobrescrevível** — plugue um `InterpreterPoolExecutor` (3.14+, PEP 734) ou `ProcessPoolExecutor`:
 
 ```python
 class MeuUsecase(FibonacciUsecase):
@@ -200,22 +198,36 @@ minha_app/
 │   └── feature_registration.py   # add_features(container) — agregador fino
 └── features/
     └── check_connection/
-        ├── errors.py             # casos concretos + união fechada
-        ├── datasources.py        # portas burras
-        ├── repositories.py       # map_error
-        ├── usecases.py           # process + on_unexpected
-        ├── services.py           # fachada consumida pela UI/API
-        └── register.py           # add_check_connection_feature(container)
+        ├── __init__.py           # API pública da feature (re-exports)
+        ├── register.py           # add_check_connection_feature(container)
+        ├── domain/               # regras, contratos e tipos — não importa camada externa
+        │   ├── errors.py         # casos concretos + união fechada
+        │   ├── models.py         # modelos do domínio (quando há)
+        │   ├── parameters.py     # parâmetros — só dados (quando há)
+        │   ├── services.py       # CONTRATO do service (ABC)
+        │   └── usecases.py       # process + on_unexpected
+        ├── datasources/          # portas burras — 1 módulo por fonte
+        ├── repositories/         # map_error (anticorrupção)
+        └── services/             # implementação do contrato do service
 ```
+
+As setas de dependência apontam para dentro: `datasources/`, `repositories/` e `services/` importam de `domain/`, nunca o contrário. Só `register.py` conhece as implementações concretas. Detalhes em [`samples/README.md`](samples/README.md).
 
 ## Composição e orquestração (DI fora do core)
 
 **A biblioteca não contém nenhum tipo de composição/DI** — nem marker interface, nem container, nem registro. Isso a mantém com zero dependências e agnóstica de framework. A composição é uma **convenção do consumidor**, em três camadas:
 
-**A) Service facade por feature** — o ponto único que a UI/API consome:
+**A) Service por feature** — contrato no domínio (ABC), implementação na camada externa; a UI/API depende **só do contrato**:
 
 ```python
-class CheckConnectionService:
+# domain/services.py — o contrato do service (ABC)
+class CheckConnectionService(ABC):
+    @abstractmethod
+    async def check(self) -> ReturnSuccessOrError[str, CheckConnectionError]: ...
+
+
+# services/check_connection_service.py — a implementação
+class CheckConnectionServiceImpl(CheckConnectionService):
     def __init__(self, usecase: CheckConnectionUsecase) -> None:
         self._usecase = usecase
 
@@ -223,7 +235,7 @@ class CheckConnectionService:
         return await self._usecase(NO_PARAMS)
 ```
 
-**B) Função de registro por feature** — registra datasource, repository, usecase e service:
+**B) Função de registro por feature** — registra datasource, repository, usecase e service (o contrato é a chave; a implementação, a fábrica):
 
 ```python
 def add_check_connection_feature(container: Container) -> Container:
@@ -239,8 +251,8 @@ def add_check_connection_feature(container: Container) -> Container:
             lambda c: CheckConnectionUsecase(c.resolve(CheckConnectionRepository)),
         )
         .add_singleton(
-            CheckConnectionService,
-            lambda c: CheckConnectionService(c.resolve(CheckConnectionUsecase)),
+            CheckConnectionService,  # contrato → implementação
+            lambda c: CheckConnectionServiceImpl(c.resolve(CheckConnectionUsecase)),
         )
     )
 ```
@@ -263,7 +275,7 @@ Não há parâmetro de cancellation token: o cancelamento asyncio é **ambiente*
 
 ## Exaustividade com match/assert_never
 
-A tipagem substitui a prova do compilador C#. O idioma canônico:
+A tipagem estrita garante o consumo exaustivo dos erros. O idioma canônico:
 
 ```python
 match error:

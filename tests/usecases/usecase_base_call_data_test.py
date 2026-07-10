@@ -1,4 +1,4 @@
-"""Testes do caso de uso com dados (≙ UsecaseBaseCallDataTests.cs)."""
+"""Testes do caso de uso com dados."""
 
 import asyncio
 from dataclasses import dataclass

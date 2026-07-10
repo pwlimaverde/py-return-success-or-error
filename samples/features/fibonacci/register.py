@@ -1,8 +1,14 @@
-"""Registro da feature Fibonacci (≙ AddFibonacciFeature)."""
+"""Registro de DI da feature.
+
+Feature sem I/O: não há datasource nem repository — só UseCase → Service.
+"""
 
 from composition.container import Container
-from features.fibonacci.services import FibonacciService
-from features.fibonacci.usecases import FibonacciUsecase
+from features.fibonacci.domain.services import FibonacciService
+from features.fibonacci.domain.usecases import FibonacciUsecase
+from features.fibonacci.services.fibonacci_service import (
+    FibonacciServiceImpl,
+)
 
 
 def add_fibonacci_feature(container: Container) -> Container:
@@ -14,5 +20,5 @@ def add_fibonacci_feature(container: Container) -> Container:
         ),
     ).add_singleton(
         FibonacciService,
-        lambda c: FibonacciService(c.resolve(FibonacciUsecase)),
+        lambda c: FibonacciServiceImpl(c.resolve(FibonacciUsecase)),
     )

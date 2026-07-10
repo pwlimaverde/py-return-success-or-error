@@ -1,4 +1,4 @@
-"""Base compartilhada pelos casos de uso (≙ UsecaseExecutorBase.cs)."""
+"""Base compartilhada pelos casos de uso."""
 
 import asyncio
 import logging
@@ -27,8 +27,7 @@ class UsecaseExecutorBase[TValue, TError](ABC):
     Attributes:
         run_in_background: Se verdadeiro, o ``process`` (CPU-bound) roda
             fora do event loop via :meth:`_dispatch_to_background`
-            (padrão: ``asyncio.to_thread``, análogo do ``Task.Run``),
-            mantendo o loop responsivo. No build padrão do CPython o
+            (padrão: ``asyncio.to_thread``), mantendo o loop responsivo. No build padrão do CPython o
             GIL limita o paralelismo de CPU puro (no free-threaded,
             3.14+, o paralelismo é real); uma thread já iniciada não é
             interrompida pelo cancelamento da task.
@@ -81,8 +80,7 @@ class UsecaseExecutorBase[TValue, TError](ABC):
         **Virtual**: sobrescreva para integrar à sua observabilidade —
         a base não impõe dependência de logging. A implementação padrão
         registra em ``logging`` no nível DEBUG (logger
-        ``py_return_success_or_error``), o análogo do ``Trace.WriteLine``
-        do C#.
+        ``py_return_success_or_error``).
 
         Args:
             elapsed: Duração total da execução do caso de uso.
@@ -98,9 +96,8 @@ class UsecaseExecutorBase[TValue, TError](ABC):
     def ok(self, value: TValue) -> ReturnSuccessOrError[TValue, TError]:
         """Cria um resultado de **sucesso** a partir do valor.
 
-        Conveniência simétrica a :meth:`fail` — como Python não tem as
-        conversões implícitas do C#, ``self.ok(valor)`` é a forma
-        recomendada de retornar sucesso dentro do ``process``.
+        Conveniência simétrica a :meth:`fail`: ``self.ok(valor)`` é a
+        forma recomendada de retornar sucesso dentro do ``process``.
 
         Args:
             value: O valor de sucesso.
@@ -115,8 +112,7 @@ class UsecaseExecutorBase[TValue, TError](ABC):
         conjunto fechado de erro.
 
         É a forma recomendada de retornar um erro de negócio no
-        ``process`` (≙ ``Fail`` do C#, que resolve o "duplo salto" de
-        conversões implícitas — aqui, resolve a inferência de tipos).
+        ``process`` — resolve a inferência de tipos do resultado.
 
         Args:
             error: Um caso concreto de ``TError``.
@@ -147,8 +143,8 @@ class UsecaseExecutorBase[TValue, TError](ABC):
         """Despacha o processamento quando ``run_in_background`` está
         habilitado.
 
-        **Virtual**: o padrão é ``asyncio.to_thread`` (≙ ``Task.Run``),
-        que mantém o event loop responsivo. No CPython **free-threaded**
+        **Virtual**: o padrão é ``asyncio.to_thread``, que mantém o
+        event loop responsivo. No CPython **free-threaded**
         (3.14+, PEP 779) isso já dá paralelismo real de CPU; no build
         padrão, o GIL limita o paralelismo de CPU puro — sobrescreva
         para usar outro executor quando precisar, por exemplo o
@@ -181,8 +177,7 @@ class UsecaseExecutorBase[TValue, TError](ABC):
         cancelamento não é falha de domínio.
         """
         # Paridade direto↔background: um cancelamento já pendente é
-        # entregue ANTES do process, nos dois modos (análogo do
-        # ThrowIfCancellationRequested do C#).
+        # entregue ANTES do process, nos dois modos.
         await asyncio.sleep(0)
 
         def guarded() -> ReturnSuccessOrError[TValue, TError]:

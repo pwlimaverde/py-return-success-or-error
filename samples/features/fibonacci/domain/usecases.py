@@ -1,20 +1,13 @@
-"""Caso de uso da feature Fibonacci — lógica pura, CPU-bound."""
-
-from dataclasses import dataclass
+"""Caso de uso da feature — lógica pura, CPU-bound."""
 
 from py_return_success_or_error import (
     ErrorGeneric,
-    Parameters,
     ReturnSuccessOrError,
     UsecaseBase,
 )
 
-from features.fibonacci.errors import EntradaInvalida, FibonacciError
-
-
-@dataclass(frozen=True)
-class FibonacciParameters(Parameters):
-    posicao: int
+from features.fibonacci.domain.errors import EntradaInvalida, FibonacciError
+from features.fibonacci.domain.parameters import FibonacciParameters
 
 
 class FibonacciUsecase(

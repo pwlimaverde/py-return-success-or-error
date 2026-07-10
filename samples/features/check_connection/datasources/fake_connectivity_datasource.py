@@ -1,4 +1,4 @@
-"""Porta de dados da feature CheckConnection (fake para o sample)."""
+"""Porta de dados da feature — fake para o sample."""
 
 import asyncio
 
