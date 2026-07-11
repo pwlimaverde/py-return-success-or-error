@@ -177,3 +177,7 @@ pyrightconfig.json
 
 # Generated using ignr.py - github.com/Antrikshy/ignr.py
 
+site/
+dist/
+.mypy_cache/
+tests/htmlcov/

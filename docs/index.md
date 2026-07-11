@@ -1,53 +1,35 @@
 ![logo do projeto](assets/logo.png){width="300" .center}
+
 # py-return-success-or-error
 
-## Visão Geral
+Result/Either com **erro fechado por feature** para Clean Architecture em Python: `DataSource → Repository → Usecase`, async-first, tipagem estrita e **zero dependências**.
 
-A biblioteca `py-return-success-or-error` é uma solução robusta para tratamento de retornos e erros em aplicações Python, seguindo princípios de design limpo e arquitetura limpa.
+## A solução por design
 
-## Principais Componentes
+Cada feature declara o seu **conjunto fechado de erros** — uma união de tipos concretos — e o resultado é parametrizado nesse conjunto:
 
-### 1. Tratamento de Retornos
-- `ReturnSuccessOrError`: Classe base para representar retornos de operações
-- `SuccessReturn`: Representa operações bem-sucedidas
-- `ErrorReturn`: Representa operações com erro
+```python
+type CheckConnectionError = Offline | ConnectionTimeout | ErrorGeneric
 
-### 2. Tratamento de Erros
-- `AppError`: Classe base para erros de aplicação personalizados
-- `ParametersReturnResult`: Padronização de parâmetros com tratamento de erros
+result: ReturnSuccessOrError[str, CheckConnectionError]
+```
 
-### 3. Casos de Uso
-- `UsecaseBase`: Para casos de uso simples sem acesso a fontes de dados
-- `UsecaseBaseCallData`: Para casos de uso com acesso a fontes de dados externas
+O consumo é **exaustivo**: com `match/case` + `assert_never`, o mypy/pyright prova em tempo de checagem que nenhum caso ficou sem tratamento.
 
-## Recursos Principais
+As falhas têm três origens, todas convergindo para a união fechada:
 
-- Suporte a execução de casos de uso em threads separadas
-- Tratamento genérico de erros e sucessos
-- Tipagem forte e segura
-- Padrões de design SOLID
-- Suporte a fontes de dados externas
+| Origem | Onde é tratada |
+|---|---|
+| Regra de negócio | `process` → `self.fail(caso)` |
+| Falha técnica de I/O | `RepositoryBase.map_error` (abstrato) |
+| Bug inesperado | `UsecaseExecutorBase.on_unexpected` (abstrato) |
 
-### Principais Características
+O **cancelamento** (`asyncio.CancelledError`) nunca vira `Failure` — propaga como exceção.
 
-- **Tratamento Explícito de Resultados**: Fornece uma abordagem clara para lidar com sucessos e erros em operações.
-- **Design Orientado a Princípios SOLID**: Utiliza classes abstratas e genéricas para criar uma estrutura flexível e extensível.
-- **Segurança de Tipos**: Implementa tipagem genérica para garantir consistência nos retornos.
-- **Padrão Singleton**: Utiliza técnicas como singleton para gerenciar instâncias únicas.
+## Instalação
 
-### Benefícios
+```bash
+pip install py-return-success-or-error
+```
 
-- Reduz a complexidade do tratamento de erros
-- Melhora a legibilidade do código
-- Facilita a manutenção e evolução de sistemas
-- Promove uma arquitetura de software mais limpa e previsível
-
-### Casos de Uso
-
-Ideal para projetos que necessitam de:
-
-- Tratamento consistente de operações que podem falhar
-- Arquiteturas de software com alta necessidade de tratamento de erros
-- Desenvolvimento de aplicações com requisitos complexos de fluxo de execução
-
-A biblioteca oferece uma abordagem moderna e pythônica para gerenciar retornos de operações, tornando o código mais robusto e expressivo.
+Requer Python **>= 3.13**. Para o guia completo (início rápido, fluxo de execução, composição/DI e migração da 0.x), veja o [README no repositório](https://github.com/pwlimaverde/py-return-success-or-error). A referência de API está no menu lateral.

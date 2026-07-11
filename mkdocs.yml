@@ -1,13 +1,23 @@
 site_name: Py Return Success or Error
 repo_url: https://github.com/pwlimaverde/py-return-success-or-error
 repo_name: py-return-success-or-error
-edit_uri: tree/master/docs
+edit_uri: tree/main/docs
 
 theme:
   name: material
   language: pt-BR
   logo: assets/logo.png
   favicon: assets/logo.png
+
+nav:
+  - Início: index.md
+  - Referência de API:
+      - Core: api/core.md
+      - Errors: api/errors.md
+      - Parameters: api/parameters.md
+      - DataSources: api/datasources.md
+      - Repositories: api/repositories.md
+      - Usecases: api/usecases.md
 
 markdown_extensions:
   - attr_list
@@ -24,6 +34,8 @@ plugins:
       handlers:
         python:
           paths:
-            - "src/py_return_success_or_error/core"
-            - "src/py_return_success_or_error/interfaces"
-            - "src/py_return_success_or_error/bases"
+            - src
+          options:
+            docstring_style: google
+            show_root_heading: true
+            show_source: true
