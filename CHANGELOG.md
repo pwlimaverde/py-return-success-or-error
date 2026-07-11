@@ -2,7 +2,7 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
-## 1.0.0rc1 — 2026-07-08
+## 1.0.0 — 2026-07-11
 
 Reescrita completa da biblioteca. **Todos os itens abaixo são breaking changes** — a API 0.x foi removida.
 

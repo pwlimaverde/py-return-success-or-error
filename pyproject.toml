@@ -1,6 +1,6 @@
 [project]
 name = "py-return-success-or-error"
-version = "1.0.0rc1"
+version = "1.0.0"
 description = "Result/Either com erro fechado por feature para Clean Architecture em Python: DataSource → Repository → Usecase, async-first, zero dependências."
 readme = "README.md"
 authors = [
@@ -8,7 +8,7 @@ authors = [
 ]
 license = "MIT"
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Natural Language :: Portuguese (Brazilian)",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
